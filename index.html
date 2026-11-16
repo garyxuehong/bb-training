@@ -1,1 +1,158 @@
-hello
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f3eb">
+  <title>Hoop Time — Basketball Training</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20231f;
+      --muted: #70756d;
+      --paper: #f6f3eb;
+      --card: #fffefa;
+      --orange: #e87936;
+      --orange-dark: #a64b1c;
+      --line: #e8e4d9;
+      --green: #537b58;
+      --shadow: 0 14px 40px rgba(48, 42, 30, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    .page { width: min(1050px, calc(100% - 32px)); margin: 0 auto; padding: 38px 0 64px; }
+    .topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); font-size: .82rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    .brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); }
+    .ball { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: var(--orange); color: white; font-size: 17px; }
+    .today { letter-spacing: .03em; text-transform: none; font-weight: 600; }
+    .hero { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; padding: 52px 0 30px; }
+    h1 { margin: 0; max-width: 650px; font-size: clamp(2.6rem, 7vw, 5rem); line-height: .98; letter-spacing: -.065em; }
+    h1 span { color: var(--orange-dark); }
+    .intro { max-width: 520px; margin: 16px 0 0; color: var(--muted); font-size: 1.02rem; }
+    .court-mark { width: 106px; height: 106px; display: grid; place-items: center; border: 1px solid #e8cdbb; border-radius: 50%; color: var(--orange-dark); font-size: 45px; transform: rotate(-12deg); }
+    .note { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 25px; padding: 13px 16px; border: 1px solid #ead9c5; border-radius: 14px; background: #fff9ef; color: #675842; font-size: .9rem; }
+    .note strong { color: var(--ink); }
+    .kids { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .kid-card { --accent: var(--orange); overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--card); box-shadow: var(--shadow); }
+    .kid-card.hamish { --accent: var(--green); }
+    .card-head { padding: 22px 22px 17px; }
+    .kid-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    h2 { margin: 0; font-size: 1.65rem; letter-spacing: -.045em; }
+    .age { display: block; margin-top: 2px; color: var(--muted); font-size: .9rem; }
+    .level { flex: 0 0 auto; border-radius: 999px; padding: 6px 10px; background: color-mix(in srgb, var(--accent) 12%, white); color: color-mix(in srgb, var(--accent) 82%, #222); font-size: .73rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+    .progress-copy { display: flex; justify-content: space-between; margin: 20px 0 8px; color: var(--muted); font-size: .82rem; font-weight: 700; }
+    .progress-copy strong { color: var(--ink); }
+    .track { height: 8px; overflow: hidden; border-radius: 99px; background: #efede6; }
+    .fill { width: 0; height: 100%; border-radius: inherit; background: var(--accent); transition: width .25s ease; }
+    .task-list { margin: 0; padding: 0 14px 8px; list-style: none; }
+    .task { display: grid; grid-template-columns: 22px 1fr auto; gap: 12px; align-items: start; padding: 13px 8px; border-top: 1px solid #f0eee8; cursor: pointer; }
+    .task input { width: 19px; height: 19px; margin: 2px 0 0; accent-color: var(--accent); cursor: pointer; }
+    .task-text { font-weight: 700; font-size: .92rem; }
+    .task-detail { display: block; margin-top: 3px; color: var(--muted); font-size: .8rem; font-weight: 450; }
+    .minutes { padding-top: 2px; color: var(--muted); font-size: .76rem; white-space: nowrap; }
+    .task:has(input:checked) .task-text { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
+    .card-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 22px 18px; border-top: 1px solid var(--line); }
+    .cheer { color: var(--muted); font-size: .82rem; }
+    .reset { border: 0; padding: 7px 10px; border-radius: 9px; background: transparent; color: var(--muted); font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; }
+    .reset:hover { background: #f2f0e9; color: var(--ink); }
+    .footer { margin-top: 25px; text-align: center; color: var(--muted); font-size: .82rem; }
+    @media (max-width: 680px) {
+      .page { width: min(100% - 24px, 520px); padding-top: 22px; }
+      .hero { grid-template-columns: 1fr; padding: 39px 0 24px; }
+      .court-mark { display: none; }
+      .kids { grid-template-columns: 1fr; gap: 16px; }
+      .today { font-size: .75rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topline">
+      <div class="brand"><span class="ball" aria-hidden="true">●</span> Hoop Time</div>
+      <div class="today" id="today"></div>
+    </div>
+
+    <header class="hero">
+      <div>
+        <h1>Small reps.<br><span>Big game.</span></h1>
+        <p class="intro">Pick a ball, find a little space, and work through your own training list. Every completed rep is a step forward.</p>
+      </div>
+      <div class="court-mark" aria-hidden="true">🏀</div>
+    </header>
+
+    <aside class="note"><span aria-hidden="true">☀</span><span><strong>Train smart:</strong> warm up first, take water breaks, and stop if something hurts. Get a grown-up or coach to help choose a safe space and hoop.</span></aside>
+
+    <section class="kids" aria-label="Basketball training checklists">
+      <article class="kid-card" data-kid="zac">
+        <div class="card-head">
+          <div class="kid-title-row"><div><h2>Zac</h2><span class="age">13 years old</span></div><span class="level">Build your game</span></div>
+          <div class="progress-copy"><span>Today's progress</span><strong class="progress-label">0 / 6</strong></div>
+          <div class="track" role="progressbar" aria-label="Zac's training progress" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><div class="fill"></div></div>
+        </div>
+        <ul class="task-list">
+          <li><label class="task"><input type="checkbox"><span class="task-text">Dynamic warm-up<span class="task-detail">Easy jog, arm circles, lunges, and high knees.</span></span><span class="minutes">5 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Handle both hands<span class="task-detail">Stationary pounds, crossovers, and between-the-legs at control.</span></span><span class="minutes">8 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Change-of-pace dribble<span class="task-detail">Dribble down and back, changing speed while keeping your eyes up.</span></span><span class="minutes">6 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Form shooting<span class="task-detail">Close-range shots first; focus on balance, aim, and follow-through.</span></span><span class="minutes">10 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Layup practice<span class="task-detail">Practice right- and left-side footwork, then finish at an easy pace.</span></span><span class="minutes">8 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Cool down & stretch<span class="task-detail">Walk to slow your breathing, then gently stretch legs and shoulders.</span></span><span class="minutes">4 min</span></label></li>
+        </ul>
+        <div class="card-foot"><span class="cheer">Stay smooth. Stay in control.</span><button class="reset" type="button">Reset list</button></div>
+      </article>
+
+      <article class="kid-card hamish" data-kid="hamish">
+        <div class="card-head">
+          <div class="kid-title-row"><div><h2>Hamish</h2><span class="age">10 years old</span></div><span class="level">Learn the basics</span></div>
+          <div class="progress-copy"><span>Today's progress</span><strong class="progress-label">0 / 6</strong></div>
+          <div class="track" role="progressbar" aria-label="Hamish's training progress" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><div class="fill"></div></div>
+        </div>
+        <ul class="task-list">
+          <li><label class="task"><input type="checkbox"><span class="task-text">Get moving<span class="task-detail">Jog, skip, and do arm circles to warm up.</span></span><span class="minutes">4 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Dribble with control<span class="task-detail">Try 20 gentle bounces with each hand. Keep the ball close.</span></span><span class="minutes">5 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Dribble and walk<span class="task-detail">Walk to a marker and back, using each hand if comfortable.</span></span><span class="minutes">5 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Shooting shape<span class="task-detail">Practice your balanced stance and follow-through; use a hoop if available.</span></span><span class="minutes">8 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Passing practice<span class="task-detail">Chest pass and bounce pass with a partner—or practise the motion.</span></span><span class="minutes">5 min</span></label></li>
+          <li><label class="task"><input type="checkbox"><span class="task-text">Cool down<span class="task-detail">Easy walk, a drink of water, and gentle stretches.</span></span><span class="minutes">4 min</span></label></li>
+        </ul>
+        <div class="card-foot"><span class="cheer">Great effort—one skill at a time!</span><button class="reset" type="button">Reset list</button></div>
+      </article>
+    </section>
+    <p class="footer">Consistency beats perfection. Have fun out there! 🏀</p>
+  </main>
+  <script>
+    const today = new Date();
+    document.getElementById('today').textContent = today.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+
+    document.querySelectorAll('.kid-card').forEach((card) => {
+      const key = `hoop-time-${card.dataset.kid}-${today.toISOString().slice(0, 10)}`;
+      const boxes = [...card.querySelectorAll('input[type="checkbox"]')];
+      const label = card.querySelector('.progress-label');
+      const bar = card.querySelector('[role="progressbar"]');
+      const fill = card.querySelector('.fill');
+      const saved = JSON.parse(localStorage.getItem(key) || '[]');
+      boxes.forEach((box, index) => { box.checked = Boolean(saved[index]); });
+
+      function update() {
+        const done = boxes.filter((box) => box.checked).length;
+        label.textContent = `${done} / ${boxes.length}`;
+        bar.setAttribute('aria-valuenow', done);
+        fill.style.width = `${(done / boxes.length) * 100}%`;
+        localStorage.setItem(key, JSON.stringify(boxes.map((box) => box.checked)));
+      }
+      boxes.forEach((box) => box.addEventListener('change', update));
+      card.querySelector('.reset').addEventListener('click', () => {
+        boxes.forEach((box) => { box.checked = false; });
+        update();
+      });
+      update();
+    });
+  </script>
+</body>
+</html>
