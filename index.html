@@ -3,154 +3,592 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f3eb">
-  <title>Hoop Time — Basketball Training</title>
+  <meta name="theme-color" content="#f5f0dd">
+  <title>Hoop Heroes Training Plan</title>
   <style>
     :root {
-      color-scheme: light;
-      --ink: #20231f;
-      --muted: #70756d;
-      --paper: #f6f3eb;
-      --card: #fffefa;
-      --orange: #e87936;
-      --orange-dark: #a64b1c;
-      --line: #e8e4d9;
-      --green: #537b58;
-      --shadow: 0 14px 40px rgba(48, 42, 30, .08);
+      --bg: #f9f1d8;
+      --paper: #fffaf0;
+      --ink: #1b1d1a;
+      --muted: #5f665f;
+      --red: #ff5d5d;
+      --orange: #ff9b42;
+      --yellow: #ffd85a;
+      --blue: #54b7d6;
+      --green: #67be72;
+      --purple: #8b74ff;
+      --ink-dark: #1f2423;
+      --panel: #fffaf6;
+      --line: #f0d8b0;
+      --shadow: 0 8px 0 rgba(26, 26, 26, 0.9);
+      --bubble-shadow: 0 8px 0 rgba(31, 36, 35, 0.14);
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      background: var(--paper);
+      background:
+        radial-gradient(circle at top left, rgba(255, 214, 90, 0.26), transparent 28%),
+        linear-gradient(180deg, #f7efdc 0%, var(--bg) 100%);
       color: var(--ink);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.5;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
     }
-    .page { width: min(1050px, calc(100% - 32px)); margin: 0 auto; padding: 38px 0 64px; }
-    .topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); font-size: .82rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
-    .brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); }
-    .ball { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: var(--orange); color: white; font-size: 17px; }
-    .today { letter-spacing: .03em; text-transform: none; font-weight: 600; }
-    .hero { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; padding: 52px 0 30px; }
-    h1 { margin: 0; max-width: 650px; font-size: clamp(2.6rem, 7vw, 5rem); line-height: .98; letter-spacing: -.065em; }
-    h1 span { color: var(--orange-dark); }
-    .intro { max-width: 520px; margin: 16px 0 0; color: var(--muted); font-size: 1.02rem; }
-    .court-mark { width: 106px; height: 106px; display: grid; place-items: center; border: 1px solid #e8cdbb; border-radius: 50%; color: var(--orange-dark); font-size: 45px; transform: rotate(-12deg); }
-    .note { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 25px; padding: 13px 16px; border: 1px solid #ead9c5; border-radius: 14px; background: #fff9ef; color: #675842; font-size: .9rem; }
-    .note strong { color: var(--ink); }
-    .kids { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-    .kid-card { --accent: var(--orange); overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--card); box-shadow: var(--shadow); }
-    .kid-card.hamish { --accent: var(--green); }
-    .card-head { padding: 22px 22px 17px; }
-    .kid-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    h2 { margin: 0; font-size: 1.65rem; letter-spacing: -.045em; }
-    .age { display: block; margin-top: 2px; color: var(--muted); font-size: .9rem; }
-    .level { flex: 0 0 auto; border-radius: 999px; padding: 6px 10px; background: color-mix(in srgb, var(--accent) 12%, white); color: color-mix(in srgb, var(--accent) 82%, #222); font-size: .73rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
-    .progress-copy { display: flex; justify-content: space-between; margin: 20px 0 8px; color: var(--muted); font-size: .82rem; font-weight: 700; }
-    .progress-copy strong { color: var(--ink); }
-    .track { height: 8px; overflow: hidden; border-radius: 99px; background: #efede6; }
-    .fill { width: 0; height: 100%; border-radius: inherit; background: var(--accent); transition: width .25s ease; }
-    .task-list { margin: 0; padding: 0 14px 8px; list-style: none; }
-    .task { display: grid; grid-template-columns: 22px 1fr auto; gap: 12px; align-items: start; padding: 13px 8px; border-top: 1px solid #f0eee8; cursor: pointer; }
-    .task input { width: 19px; height: 19px; margin: 2px 0 0; accent-color: var(--accent); cursor: pointer; }
-    .task-text { font-weight: 700; font-size: .92rem; }
-    .task-detail { display: block; margin-top: 3px; color: var(--muted); font-size: .8rem; font-weight: 450; }
-    .minutes { padding-top: 2px; color: var(--muted); font-size: .76rem; white-space: nowrap; }
-    .task:has(input:checked) .task-text { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
-    .card-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 22px 18px; border-top: 1px solid var(--line); }
-    .cheer { color: var(--muted); font-size: .82rem; }
-    .reset { border: 0; padding: 7px 10px; border-radius: 9px; background: transparent; color: var(--muted); font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; }
-    .reset:hover { background: #f2f0e9; color: var(--ink); }
-    .footer { margin-top: 25px; text-align: center; color: var(--muted); font-size: .82rem; }
-    @media (max-width: 680px) {
-      .page { width: min(100% - 24px, 520px); padding-top: 22px; }
-      .hero { grid-template-columns: 1fr; padding: 39px 0 24px; }
-      .court-mark { display: none; }
-      .kids { grid-template-columns: 1fr; gap: 16px; }
-      .today { font-size: .75rem; }
+
+    .page {
+      width: min(1120px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 28px 0 50px;
     }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+    .banner {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ffecc0 0%, #ffd76d 42%, #ffb74c 100%);
+      border: 4px solid var(--ink-dark);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      padding: 18px 22px 20px;
+    }
+
+    .banner::before,
+    .banner::after {
+      content: "";
+      position: absolute;
+      inset: auto auto 14px 18px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .banner::after {
+      left: auto;
+      right: 26px;
+      bottom: 20px;
+      width: 52px;
+      height: 52px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.35);
+      border: 3px solid rgba(27,29,26,0.7);
+      padding: 7px 12px;
+      border-radius: 999px;
+    }
+
+    .ball {
+      width: 25px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ffd7a2 0%, #ff9b42 22%, #d85d1a 58%, #a94318 100%);
+      border: 3px solid #1b1d1a;
+      color: #fff;
+      font-size: 0.7rem;
+    }
+
+    .today {
+      background: rgba(255,255,255,0.28);
+      border: 3px solid rgba(27,29,26,0.7);
+      border-radius: 999px;
+      padding: 7px 12px;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 18px;
+      align-items: center;
+      padding-top: 22px;
+    }
+
+    .title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.7rem, 6vw, 5.2rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0 #fff;
+    }
+
+    h1 .accent { color: #d84332; }
+
+    .subtitle {
+      margin: 0;
+      max-width: 560px;
+      background: rgba(255,255,255,0.4);
+      border: 3px solid rgba(27,29,26,0.8);
+      border-radius: 18px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .hero-art {
+      position: relative;
+      height: 170px;
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-figure {
+      position: relative;
+      width: 155px;
+      height: 155px;
+      background: linear-gradient(180deg, #6ec6ff 0%, #5aa8d8 100%);
+      border: 4px solid var(--ink-dark);
+      border-radius: 26px 26px 32px 32px;
+      box-shadow: var(--shadow);
+      transform: rotate(8deg);
+    }
+
+    .hero-figure::before {
+      content: "";
+      position: absolute;
+      left: 32px;
+      top: 28px;
+      width: 90px;
+      height: 90px;
+      background: #f9d0a6;
+      border-radius: 50%;
+      border: 4px solid var(--ink-dark);
+    }
+
+    .hero-figure::after {
+      content: "🏀";
+      position: absolute;
+      inset: auto 14px 14px auto;
+      font-size: 46px;
+      transform: rotate(15deg);
+    }
+
+    .starburst {
+      position: absolute;
+      right: 40px;
+      top: 6px;
+      font-size: 3rem;
+      transform: rotate(16deg);
+      filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.2));
+    }
+
+    .kids-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 26px;
+    }
+
+    .kid-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--panel);
+      border: 4px solid var(--ink-dark);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding-bottom: 14px;
+    }
+
+    .kid-card.zac {
+      background: linear-gradient(180deg, #fff9f0 0%, #fffdf8 100%);
+    }
+
+    .kid-card.hamish {
+      background: linear-gradient(180deg, #f4fbf4 0%, #fcfefc 100%);
+    }
+
+    .kid-card::before {
+      content: "";
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 189, 78, 0.16);
+      z-index: 0;
+    }
+
+    .kid-card.hamish::before {
+      background: rgba(103, 190, 114, 0.18);
+    }
+
+    .card-head,
+    .card-foot,
+    .task-list {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-head {
+      padding: 18px 18px 10px;
+    }
+
+    .kid-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.7rem);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    .age {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 3px solid var(--ink-dark);
+      background: #fff;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .zac .badge { background: #ffe6c4; }
+    .hamish .badge { background: #dbf6d0; }
+
+    .progress-wrap {
+      margin-top: 18px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .progress-label strong {
+      color: var(--ink);
+      font-size: 0.88rem;
+    }
+
+    .track {
+      position: relative;
+      height: 16px;
+      border: 3px solid var(--ink-dark);
+      border-radius: 999px;
+      background: #efe6d6;
+      overflow: hidden;
+    }
+
+    .fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0%;
+      background: linear-gradient(90deg, #ffb75a 0%, #ff7a59 100%);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .hamish .fill {
+      background: linear-gradient(90deg, #76d68d 0%, #4fc66d 100%);
+    }
+
+    .task-list {
+      list-style: none;
+      padding: 10px 12px 0;
+      margin: 0;
+    }
+
+    .task {
+      display: grid;
+      grid-template-columns: 24px 1fr auto;
+      gap: 12px;
+      align-items: start;
+      padding: 12px 8px;
+      margin: 0;
+      border-top: 3px dashed #efdcb5;
+    }
+
+    .task:first-child { border-top: 0; }
+
+    .task input {
+      width: 22px;
+      height: 22px;
+      margin-top: 2px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .task-text {
+      display: block;
+      font-weight: 900;
+      font-size: 0.96rem;
+      line-height: 1.3;
+    }
+
+    .task-detail {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .minutes {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 8px;
+      background: #fff2bf;
+      border: 2px solid var(--ink-dark);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #504c25;
+      white-space: nowrap;
+    }
+
+    .hamish .minutes { background: #e2f7dd; color: #294d2f; }
+
+    .task:has(input:checked) .task-text {
+      color: var(--muted);
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: var(--red);
+    }
+
+    .card-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px 10px;
+      margin-top: 4px;
+      border-top: 3px dashed #efdcb5;
+    }
+
+    .cheer {
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .reset {
+      border: 3px solid var(--ink-dark);
+      border-radius: 12px;
+      background: #ffef9a;
+      color: var(--ink-dark);
+      font: inherit;
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+      transition: transform 0.1s ease;
+    }
+
+    .reset:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .footer {
+      margin-top: 26px;
+      text-align: center;
+      font-size: 0.84rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-art {
+        height: 130px;
+      }
+
+      .kids-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="topline">
-      <div class="brand"><span class="ball" aria-hidden="true">●</span> Hoop Time</div>
-      <div class="today" id="today"></div>
-    </div>
-
-    <header class="hero">
-      <div>
-        <h1>Small reps.<br><span>Big game.</span></h1>
-        <p class="intro">Pick a ball, find a little space, and work through your own training list. Every completed rep is a step forward.</p>
+    <section class="banner" aria-label="Basketball training banner">
+      <div class="topbar">
+        <div class="brand"><span class="ball">🏀</span> Hoop Heroes</div>
+        <div class="today" id="today">Today</div>
       </div>
-      <div class="court-mark" aria-hidden="true">🏀</div>
-    </header>
 
-    <aside class="note"><span aria-hidden="true">☀</span><span><strong>Train smart:</strong> warm up first, take water breaks, and stop if something hurts. Get a grown-up or coach to help choose a safe space and hoop.</span></aside>
-
-    <section class="kids" aria-label="Basketball training checklists">
-      <article class="kid-card" data-kid="zac">
-        <div class="card-head">
-          <div class="kid-title-row"><div><h2>Zac</h2><span class="age">13 years old</span></div><span class="level">Build your game</span></div>
-          <div class="progress-copy"><span>Today's progress</span><strong class="progress-label">0 / 6</strong></div>
-          <div class="track" role="progressbar" aria-label="Zac's training progress" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><div class="fill"></div></div>
+      <div class="hero">
+        <div class="title-wrap">
+          <h1>Train <span class="accent">Hard</span><br>Play <span class="accent">Bright</span></h1>
+          <p class="subtitle">Your basketball challenge board for today. Quick reps, good habits, and extra confidence on the court.</p>
         </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <div class="starburst">★</div>
+          <div class="hero-figure"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="kids-grid" aria-label="Training todo lists for Zac and Hamish">
+      <article class="kid-card zac" data-kid="zac">
+        <div class="card-head">
+          <div class="kid-top">
+            <div>
+              <h2>Zac</h2>
+              <span class="age">13 years old</span>
+            </div>
+            <span class="badge">Level Up</span>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-label"><span>Progress</span><strong class="progress-label-text">0 / 6</strong></div>
+            <div class="track" aria-label="Zac progress" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><div class="fill"></div></div>
+          </div>
+        </div>
+
         <ul class="task-list">
-          <li><label class="task"><input type="checkbox"><span class="task-text">Dynamic warm-up<span class="task-detail">Easy jog, arm circles, lunges, and high knees.</span></span><span class="minutes">5 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Handle both hands<span class="task-detail">Stationary pounds, crossovers, and between-the-legs at control.</span></span><span class="minutes">8 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Change-of-pace dribble<span class="task-detail">Dribble down and back, changing speed while keeping your eyes up.</span></span><span class="minutes">6 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Form shooting<span class="task-detail">Close-range shots first; focus on balance, aim, and follow-through.</span></span><span class="minutes">10 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Layup practice<span class="task-detail">Practice right- and left-side footwork, then finish at an easy pace.</span></span><span class="minutes">8 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Cool down & stretch<span class="task-detail">Walk to slow your breathing, then gently stretch legs and shoulders.</span></span><span class="minutes">4 min</span></label></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Dynamic warm-up</span><span class="task-detail">Jog, arm circles, lunges, and high knees.</span></div><span class="minutes">5 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Handle both hands</span><span class="task-detail">Pounds, crossovers, and between-the-legs control.</span></div><span class="minutes">8 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Change-of-pace dribble</span><span class="task-detail">Fast, slow, eyes up, strong control.</span></div><span class="minutes">6 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Form shooting</span><span class="task-detail">Close range, balanced feet, smooth follow-through.</span></div><span class="minutes">10 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Layup practice</span><span class="task-detail">Right and left side, quick feet, finish soft.</span></div><span class="minutes">8 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Cool down & stretch</span><span class="task-detail">Slow walk and loosen your legs and shoulders.</span></div><span class="minutes">4 min</span></li>
         </ul>
-        <div class="card-foot"><span class="cheer">Stay smooth. Stay in control.</span><button class="reset" type="button">Reset list</button></div>
+
+        <div class="card-foot">
+          <span class="cheer">Stay smooth!</span>
+          <button class="reset" type="button">Reset</button>
+        </div>
       </article>
 
       <article class="kid-card hamish" data-kid="hamish">
         <div class="card-head">
-          <div class="kid-title-row"><div><h2>Hamish</h2><span class="age">10 years old</span></div><span class="level">Learn the basics</span></div>
-          <div class="progress-copy"><span>Today's progress</span><strong class="progress-label">0 / 6</strong></div>
-          <div class="track" role="progressbar" aria-label="Hamish's training progress" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><div class="fill"></div></div>
+          <div class="kid-top">
+            <div>
+              <h2>Hamish</h2>
+              <span class="age">10 years old</span>
+            </div>
+            <span class="badge">Skill Builder</span>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-label"><span>Progress</span><strong class="progress-label-text">0 / 6</strong></div>
+            <div class="track" aria-label="Hamish progress" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><div class="fill"></div></div>
+          </div>
         </div>
+
         <ul class="task-list">
-          <li><label class="task"><input type="checkbox"><span class="task-text">Get moving<span class="task-detail">Jog, skip, and do arm circles to warm up.</span></span><span class="minutes">4 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Dribble with control<span class="task-detail">Try 20 gentle bounces with each hand. Keep the ball close.</span></span><span class="minutes">5 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Dribble and walk<span class="task-detail">Walk to a marker and back, using each hand if comfortable.</span></span><span class="minutes">5 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Shooting shape<span class="task-detail">Practice your balanced stance and follow-through; use a hoop if available.</span></span><span class="minutes">8 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Passing practice<span class="task-detail">Chest pass and bounce pass with a partner—or practise the motion.</span></span><span class="minutes">5 min</span></label></li>
-          <li><label class="task"><input type="checkbox"><span class="task-text">Cool down<span class="task-detail">Easy walk, a drink of water, and gentle stretches.</span></span><span class="minutes">4 min</span></label></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Get moving</span><span class="task-detail">Jog, skip, and swirl your arms to warm up.</span></div><span class="minutes">4 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Dribble with control</span><span class="task-detail">Light bounces with each hand and a tight grip.</span></div><span class="minutes">5 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Walk and dribble</span><span class="task-detail">Move to a marker, then back with control.</span></div><span class="minutes">5 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Shooting form</span><span class="task-detail">Balanced feet, eye on the rim, smooth release.</span></div><span class="minutes">8 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Passing practice</span><span class="task-detail">Chest pass and bounce pass with a partner.</span></div><span class="minutes">5 min</span></li>
+          <li class="task"><input type="checkbox"><div><span class="task-text">Cool down</span><span class="task-detail">Easy walk, water break, and gentle stretches.</span></div><span class="minutes">4 min</span></li>
         </ul>
-        <div class="card-foot"><span class="cheer">Great effort—one skill at a time!</span><button class="reset" type="button">Reset list</button></div>
+
+        <div class="card-foot">
+          <span class="cheer">Nice work!</span>
+          <button class="reset" type="button">Reset</button>
+        </div>
       </article>
     </section>
-    <p class="footer">Consistency beats perfection. Have fun out there! 🏀</p>
+
+    <div class="footer">Consistency wins the game.</div>
   </main>
+
   <script>
-    const today = new Date();
-    document.getElementById('today').textContent = today.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+    document.getElementById('today').textContent = new Date().toLocaleDateString(undefined, {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    });
 
     document.querySelectorAll('.kid-card').forEach((card) => {
-      const key = `hoop-time-${card.dataset.kid}-${today.toISOString().slice(0, 10)}`;
+      const key = 'hoop-heroes-' + card.dataset.kid + '-' + new Date().toISOString().slice(0, 10);
       const boxes = [...card.querySelectorAll('input[type="checkbox"]')];
-      const label = card.querySelector('.progress-label');
-      const bar = card.querySelector('[role="progressbar"]');
+      const progressText = card.querySelector('.progress-label-text');
       const fill = card.querySelector('.fill');
+      const track = card.querySelector('.track');
       const saved = JSON.parse(localStorage.getItem(key) || '[]');
-      boxes.forEach((box, index) => { box.checked = Boolean(saved[index]); });
+
+      boxes.forEach((box, index) => {
+        box.checked = !!saved[index];
+      });
 
       function update() {
         const done = boxes.filter((box) => box.checked).length;
-        label.textContent = `${done} / ${boxes.length}`;
-        bar.setAttribute('aria-valuenow', done);
+        progressText.textContent = `${done} / ${boxes.length}`;
+        track.setAttribute('aria-valuenow', String(done));
         fill.style.width = `${(done / boxes.length) * 100}%`;
         localStorage.setItem(key, JSON.stringify(boxes.map((box) => box.checked)));
       }
+
       boxes.forEach((box) => box.addEventListener('change', update));
       card.querySelector('.reset').addEventListener('click', () => {
-        boxes.forEach((box) => { box.checked = false; });
+        boxes.forEach((box) => (box.checked = false));
         update();
       });
+
       update();
     });
   </script>
